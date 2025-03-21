@@ -31,18 +31,13 @@ jobs:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKER_ACCESS }}
             
-            - name: Build the Docker image
+            - name: Build and push the Docker image
               uses: docker/build-push-action@v6
               with:
                 context : .
                 file: Dockerfile
                 push: false
+                platforms: linux/amd64
                 tags: ${{ secrets.DOCKERHUB_USERNAME }}/spring-app-demo:latest
             
-            - name: Push the Docker image
-              uses: docker/build-push-action@v6
-              with:
-                context : .
-                file: Dockerfile
-                push: true
-                tags: ${{ secrets.DOCKERHUB_USERNAME }}/spring-app-demo:latest
+            
