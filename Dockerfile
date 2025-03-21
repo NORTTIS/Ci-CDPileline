@@ -10,6 +10,7 @@ RUN ./gradlew clean build -x test --no-daemon
 
 # ---- Giai đoạn chạy ----
 FROM eclipse-temurin:21-jdk
+
 WORKDIR /app
 
 # Chỉ sao chép file JAR đã build
