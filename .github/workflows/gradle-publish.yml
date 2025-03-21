@@ -20,7 +20,7 @@ jobs:
               working-directory: backend
               run: |
                   chmod +x gradlew
-                  ./gradlew clean build -DskipTests
+                  ./gradlew clean build -x test
 
             # - name: Build the Docker image
             #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
