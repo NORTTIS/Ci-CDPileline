@@ -28,9 +28,9 @@ jobs:
             - name: Build the Docker image
               uses: docker/build-push-action@v6
               with:
+                context : .
+                file: Dockerfile
                 push: false
-                context : backend
-                file: backend/Dockerfile
                 tags: ${{ secrets.DOCKERHUB_USERNAME }}/spring-app-demo:latest
             
             - name: Login to Docker Hub
@@ -42,7 +42,7 @@ jobs:
             - name: Push the Docker image
               uses: docker/build-push-action@v6
               with:
+                context : .
+                file: Dockerfile
                 push: true
-                context : backend
-                file: backend/Dockerfile
                 tags: ${{ secrets.DOCKERHUB_USERNAME }}/spring-app-demo:latest
