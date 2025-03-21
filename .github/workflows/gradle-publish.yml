@@ -17,13 +17,11 @@ jobs:
                   java-version: "17"
                   distribution: "temurin"
 
-            - name: Unit Test
-              working-directory: backend
-              run: ./gradlew test
-
-            - name: Build with Gradle
-              working-directory: backend
-              run: ./gradlew clean build
-
+            - name: Build and Test with Gradle
+              run: |
+                  chmod +x gradlew
+                  ./gradlew test
+                  ./gradlew clean build
+                  working-directory: backend
             # - name: Build the Docker image
             #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
