@@ -1,0 +1,27 @@
+services:
+    mysql:
+        container_name: mysql-demo
+        image: mysql:latest
+        environment:
+            - MYSQL_DATABASE=demobase
+            - MYSQL_ROOT_PASSWORD=12345678
+        ports:
+            - 3308:3306
+        volumes:
+            - mysqlv:/var/lib/mysql
+        networks:
+            - backend-networks-demo
+    my-spring-app:
+        container_name: spring-app-demo
+        image: spring-app-demo
+        ports:
+            - 8088:8080
+        networks:
+            - backend-networks-demo
+        depends_on:
+            - mysql
+volumes:
+    mysqlv:
+networks:
+    backend-networks-demo:
+        driver: bridge
