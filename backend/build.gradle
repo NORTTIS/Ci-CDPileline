@@ -41,3 +41,9 @@ tasks.withType(Test) {
 tasks.named('jar') {
     enabled = false
 }
+
+test {
+    if (project.hasProperty('skipTests')) {
+        enabled = false
+    }
+}
