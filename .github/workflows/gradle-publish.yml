@@ -21,6 +21,8 @@ jobs:
 
             - name: Build with Gradle Wrapper
               working-directory: backend
-              run: ./gradlew build
+              run: |
+                 chmod +x gradlew
+                 ./gradlew build
             # - name: Build the Docker image
             #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
