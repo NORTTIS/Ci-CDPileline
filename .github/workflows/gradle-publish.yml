@@ -20,7 +20,7 @@ jobs:
               working-directory: backend
               run: |
                   chmod +x gradlew
-                  ./gradlew test
+                  ./gradlew test -Dspring.profiles.active=test
                   ./gradlew clean build
 
             # - name: Build the Docker image
