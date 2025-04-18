@@ -42,18 +42,37 @@ jobs:
 
     deploy-backend:
         name: Deploy Backend
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         needs: [build-deploy]
         steps:
-            - name: create deployment folder
-              run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p ~/spring-app-demo/backend"
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-            - name: copy backend files
-              run: scp docker-compose.yml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:~/spring-app-demo/backend/docker-compose.yml
+            - name: Create deployment folder
+              uses: appleboy/ssh-action@v1.0.0
+              with:
+                  host: ${{ secrets.VPS_IP }}
+                  username: ${{ secrets.VPS_USERNAME }}
+                  password: ${{ secrets.VPS_SSH_KEY }}
+                  script: |
+                          mkdir -p ~/spring-app-demo/backend
 
-            - name: deploy
-              run: |
-                  ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
-                  cd ~/spring-app-demo/backend
-                  docker-compose -f docker-compose.yml pull -q
-                  docker-compose -f docker-compose.yml up -q
+            - name: Copy backend files
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                  host: ${{ secrets.VPS_IP }}
+                  username: ${{ secrets.VPS_USERNAME }}
+                  password: ${{ secrets.VPS_SSH_KEY }}
+                  source: "docker-compose.yml"
+                  target: "~/spring-app-demo/backend/"
+
+            - name: Deploy
+              uses: appleboy/ssh-action@v1.0.0
+              with:
+                   host: ${{ secrets.VPS_IP }}
+                   username: ${{ secrets.VPS_USERNAME }}
+                   password: ${{ secrets.VPS_SSH_KEY }}
+                   script: |
+                        cd ~/spring-app-demo/backend
+                        docker-compose -f docker-compose.yml pull -q
+                        docker-compose -f docker-compose.yml up -d -q
