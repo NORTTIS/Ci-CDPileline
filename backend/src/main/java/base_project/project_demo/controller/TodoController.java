@@ -1,6 +1,7 @@
 package base_project.project_demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,12 @@ public class TodoController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Todo addTodo(@RequestBody Todo todo) {
         todoService.addTodo(todo);
+        return todo;
+    }
+
+    @RequestMapping(value = "/${id}", method = RequestMethod.PUT)
+    public Todo updateTodo(@PathVariable(name = "id") Long id, @RequestBody Todo todo) {
+        todoService.updateTodo(id, todo);
         return todo;
     }
 
